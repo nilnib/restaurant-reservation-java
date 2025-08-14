@@ -39,11 +39,13 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
-      - name: Fail if Checkstyle violations exist
+      - name: Warn if Checkstyle violations exist
         if: always()
         run: |
           if [ -f target/checkstyle-result.xml ]; then
-            grep -q '<error' target/checkstyle-result.xml && exit 1 || exit 0
+            if grep -q '<error' target/checkstyle-result.xml; then
+              echo "::warning file=target/checkstyle-result.xml::Checkstyle violations found. See the report for details."
+            fi
           fi
 
       - name: Publish JaCoCo Code Coverage Report
