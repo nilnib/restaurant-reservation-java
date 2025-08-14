@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set environment variables from GitHub Secrets
+        run: echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
+
+      - name: Run Static Code Analysis (Checkstyle)
+        run: mvn -B checkstyle:checkstyle
+
+      - name: Run Unit Tests & Code Coverage
+        run: mvn -B test jacoco:report
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+      - name: Fail if Checkstyle violations exist
+        if: always()
+        run: |
+          if [ -f target/checkstyle-result.xml ]; then
+            grep -q '<error' target/checkstyle-result.xml && exit 1 || exit 0
+          fi
+
+      - name: Publish JaCoCo Code Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+      - name: Package JAR Artifact
+        run: mvn -B package
+
+      - name: Publish JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-artifact
+          path: target/*.jar

@@ -1,0 +1,58 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+      - feature/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Maven@3
+    displayName: 'Run Static Code Analysis (Checkstyle)'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'checkstyle:checkstyle'
+      options: '-B'
+      publishJUnitResults: false
+
+  - task: Maven@3
+    displayName: 'Run Unit Tests & Code Coverage'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'test jacoco:report'
+      options: '-B'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+  # Optional: Fail pipeline if Checkstyle violations are found
+  - script: |
+      if [ -f target/checkstyle-result.xml ]; then
+        grep -q '<error' target/checkstyle-result.xml && exit 1 || exit 0
+      fi
+    displayName: 'Fail if Checkstyle violations exist'
+    condition: succeededOrFailed()
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish JaCoCo Code Coverage Report'
+    inputs:
+      codeCoverageTool: 'JaCoCo'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/target/site/jacoco/jacoco.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/target/site/jacoco'
+
+  - task: Maven@3
+    displayName: 'Package JAR Artifact'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'package'
+      options: '-B'
+      publishJUnitResults: false
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish JAR Artifact'
+    inputs:
+      PathtoPublish: '$(System.DefaultWorkingDirectory)/target/'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

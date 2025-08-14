@@ -1,0 +1,12 @@
+com\example\restaurantreservation\service\ReservationService.class
+com\example\restaurantreservation\model\MongoDbSettings.class
+com\example\restaurantreservation\model\Reservation.class
+com\example\restaurantreservation\controller\ReservationController.class
+com\example\restaurantreservation\service\UserService.class
+com\example\restaurantreservation\RestaurantReservationJavaApplication.class
+com\example\restaurantreservation\model\Restaurant.class
+com\example\restaurantreservation\service\RestaurantService.class
+com\example\restaurantreservation\controller\RestaurantController.class
+com\example\restaurantreservation\controller\UserController.class
+com\example\restaurantreservation\model\User.class
+com\example\restaurantreservation\model\Restaurant$Table.class

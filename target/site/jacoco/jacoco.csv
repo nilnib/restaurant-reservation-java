@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Restaurant Reservation Java,com.example.restaurantreservation.model,User,0,24,0,0,0,7,0,7,0,7
+Restaurant Reservation Java,com.example.restaurantreservation.model,MongoDbSettings,17,0,0,0,5,0,5,0,5,0
+Restaurant Reservation Java,com.example.restaurantreservation.model,Restaurant,7,24,0,0,2,7,2,7,2,7
+Restaurant Reservation Java,com.example.restaurantreservation.model,Restaurant.Table,17,0,0,0,5,0,5,0,5,0
+Restaurant Reservation Java,com.example.restaurantreservation.model,Reservation,9,36,0,0,3,10,3,10,3,10
+Restaurant Reservation Java,com.example.restaurantreservation.controller,RestaurantController,54,19,4,0,13,4,6,3,4,3
+Restaurant Reservation Java,com.example.restaurantreservation.controller,ReservationController,71,43,7,3,16,7,10,3,5,3
+Restaurant Reservation Java,com.example.restaurantreservation.controller,UserController,54,19,4,0,13,4,6,3,4,3
+Restaurant Reservation Java,com.example.restaurantreservation.service,RestaurantService,28,14,0,0,5,3,3,3,3,3
+Restaurant Reservation Java,com.example.restaurantreservation.service,UserService,28,14,0,0,5,3,3,3,3,3
+Restaurant Reservation Java,com.example.restaurantreservation.service,ReservationService,64,0,0,0,11,0,7,0,7,0
+Restaurant Reservation Java,com.example.restaurantreservation,RestaurantReservationJavaApplication,8,0,0,0,3,0,2,0,2,0
